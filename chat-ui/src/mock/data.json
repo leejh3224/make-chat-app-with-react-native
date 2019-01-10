@@ -1,0 +1,101 @@
+{
+	"chats": {
+		"4730ec15effbb3c9": {
+			"id": "4730ec15effbb3c9",
+			"lastMessage": {
+				"message": "Hi, there?",
+				"timestamp": 1547098358181
+			}
+		},
+		"ba0f5b1a03bb6115": {
+			"id": "ba0f5b1a03bb6115",
+			"lastMessage": {
+				"message": "It's good",
+				"timestamp": 1547124183922
+			}
+		},
+		"f7279db339b9c6d7": {
+			"id": "f7279db339b9c6d7",
+			"lastMessage": {
+				"message": "Four people!",
+				"timestamp": 1547126211685
+			}
+		}
+	},
+	"members": {
+		"4730ec15effbb3c9": {
+			"u-f125e60d0d081203": {
+				"uid": "u-f125e60d0d081203",
+				"profileImage": "https://developeronfire.com/assets/images/JohnDeGoes.jpeg",
+				"name": "John"
+			},
+			"u-8c23c5308b0c7570": {
+				"uid": "u-8c23c5308b0c7570",
+				"profileImage": "https://i.kinja-img.com/gawker-media/image/upload/s--fx6lZm9h--/c_scale,f_auto,fl_progressive,q_80,w_800/u2gyd6lga9yu7fpi1zix.jpg",
+				"name": "Martha"
+			}
+		},
+		"ba0f5b1a03bb6115": {
+			"u-f125e60d0d081203": {
+				"uid": "u-f125e60d0d081203",
+				"profileImage": "https://developeronfire.com/assets/images/JohnDeGoes.jpeg",
+				"name": "John"
+			},
+			"u-8c23c5308b0c7570": {
+				"uid": "u-8c23c5308b0c7570",
+				"profileImage": "https://i.kinja-img.com/gawker-media/image/upload/s--fx6lZm9h--/c_scale,f_auto,fl_progressive,q_80,w_800/u2gyd6lga9yu7fpi1zix.jpg",
+				"name": "Martha"
+			},
+			"u-233ab390051bb3ad": {
+				"uid": "u-233ab390051bb3ad",
+				"profileImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWz4HUm-O0rDsnQQ8sUT-T4OtgM5HWVxS9vX5WQYuKR3GEzntM",
+				"name": "Peter"
+			}
+		},
+		"f7279db339b9c6d7": {
+			"u-f125e60d0d081203": {
+				"uid": "u-f125e60d0d081203",
+				"profileImage": "https://developeronfire.com/assets/images/JohnDeGoes.jpeg",
+				"name": "John"
+			},
+			"u-8c23c5308b0c7570": {
+				"uid": "u-8c23c5308b0c7570",
+				"profileImage": "https://i.kinja-img.com/gawker-media/image/upload/s--fx6lZm9h--/c_scale,f_auto,fl_progressive,q_80,w_800/u2gyd6lga9yu7fpi1zix.jpg",
+				"name": "Martha"
+			},
+			"u-233ab390051bb3ad": {
+				"uid": "u-233ab390051bb3ad",
+				"profileImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWz4HUm-O0rDsnQQ8sUT-T4OtgM5HWVxS9vX5WQYuKR3GEzntM",
+				"name": "Peter"
+			},
+			"u-8e13212050398d12": {
+				"uid": "u-8e13212050398d12",
+				"profileImage": "http://p9cdn4static.sharpschool.com/UserFiles/Servers/Server_804553/Image/Johnson.JPG",
+				"name": "Johnson"
+			}
+		}
+	},
+	"messages": {
+		"4730ec15effbb3c9": {
+			"m-c4443c3251756579": {
+				"message": "Hi, there?",
+				"sender": "u-8c23c5308b0c7570",
+				"timestamp": 1547098358181
+			}
+		},
+		"ba0f5b1a03bb6115": {
+			"m-5f119edc13b88a85": {
+				"message": "It's good",
+				"sender": "u-f125e60d0d081203",
+				"timestamp": 1547124183922
+			}
+		},
+		"f7279db339b9c6d7": {
+			"m-cf78af2bc3c3505b": {
+				"message": "Four people!",
+				"sender": "u-8e13212050398d12",
+				"timestamp": 1547126211685
+			}
+		}
+	}
+}
