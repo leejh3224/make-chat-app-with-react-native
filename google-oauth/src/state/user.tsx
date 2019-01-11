@@ -7,7 +7,7 @@ export interface State {
 
 const { Provider, Consumer } = React.createContext<State>({ user: null });
 
-class UserContextProvider extends React.Component<{}, State> {
+export class UserProvider extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -34,4 +34,3 @@ class UserContextProvider extends React.Component<{}, State> {
 }
 
 export const UserConsumer = Consumer;
-export const UserProvider = UserContextProvider;
