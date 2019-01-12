@@ -4,17 +4,22 @@ import * as React from "react";
 import {
   Image,
   KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
   SectionList,
+  StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
   View
 } from "react-native";
 import { NavigationScreenProps } from "react-navigation";
 
-import { MembersConsumer } from "state/members";
-import { MessagesConsumer } from "state/messages";
+import { MembersConsumer, MembersProvider } from "state/members";
+import { MessagesConsumer, MessagesProvider } from "state/messages";
+import {
+  ImagePickerConsumer,
+  ImagePickerProvider
+} from "state/withImagePicker";
 
 class Chat extends React.Component<NavigationScreenProps> {
   static navigationOptions = ({ navigation }: NavigationScreenProps) => ({
@@ -68,7 +73,7 @@ class Chat extends React.Component<NavigationScreenProps> {
     }).format(timestamp);
   };
 
-  sendMessage = update => {
+  sendMessage = (update: (param: any) => void) => {
     const { navigation } = this.props;
     const chatId = navigation.getParam("chatId");
 
@@ -85,7 +90,7 @@ class Chat extends React.Component<NavigationScreenProps> {
     }));
   };
 
-  handleRenderListFooter = ({ section: { title } }) => {
+  handleRenderListFooter = ({ section: { title } }: any) => {
     return (
       <View style={{ alignItems: "center", marginVertical: 16 }}>
         <Text style={{ color: "gray", fontSize: 14 }}>{title}</Text>
@@ -93,55 +98,7 @@ class Chat extends React.Component<NavigationScreenProps> {
     );
   };
 
-  handleRenderListHeader = () => {
-    const { text } = this.state;
-
-    return (
-      <MessagesConsumer>
-        {({ pushMessage }) => {
-          return (
-            <SafeAreaView>
-              <View
-                style={{
-                  paddingHorizontal: 16,
-                  paddingTop: 8,
-                  paddingBottom: 30,
-                  backgroundColor: "#f2f2f2",
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center"
-                }}
-              >
-                <TextInput
-                  placeholder="Type a word"
-                  value={text}
-                  onChangeText={this.handleChangeText}
-                  onSubmitEditing={() => this.sendMessage(pushMessage)}
-                  style={{ padding: 8, flex: 1, fontSize: 20 }}
-                />
-                <Ionicons
-                  name="ios-image"
-                  size={28}
-                  color="#b3b3b3"
-                  onPress={() => {}}
-                  style={{ paddingHorizontal: 8 }}
-                />
-                <Ionicons
-                  name="ios-camera"
-                  size={32}
-                  color="#b3b3b3"
-                  onPress={() => {}}
-                  style={{ paddingHorizontal: 8 }}
-                />
-              </View>
-            </SafeAreaView>
-          );
-        }}
-      </MessagesConsumer>
-    );
-  };
-
-  handleRenderItem = ({ item, index, section: { data } }) => {
+  handleRenderItem = ({ item, index, section: { data } }: any) => {
     return (
       <MembersConsumer>
         {({ members }) => {
@@ -170,14 +127,11 @@ class Chat extends React.Component<NavigationScreenProps> {
 
           return (
             <View
-              style={[
-                {
-                  alignSelf: isMyMessage ? "flex-end" : "flex-start",
-                  marginHorizontal: showProfileImage ? 8 : 64
-                },
-                // add margin bottom when there is no timestamp
-                !showTimestamp && { marginBottom: 8 }
-              ]}
+              style={{
+                alignSelf: isMyMessage ? "flex-end" : "flex-start",
+                marginHorizontal: showProfileImage ? 8 : isMyMessage ? 8 : 64,
+                marginBottom: 8
+              }}
             >
               <View
                 style={{ flexDirection: isMyMessage ? "row-reverse" : "row" }}
@@ -207,27 +161,31 @@ class Chat extends React.Component<NavigationScreenProps> {
                   <Text
                     style={{
                       color: isMyMessage ? "gray" : "white",
-                      fontSize: 18
+                      fontSize: 18,
+                      lineHeight: 24
                     }}
                   >
                     {item.message}
                   </Text>
                 </View>
-              </View>
-              {showTimestamp && (
-                <Text
+                <View
                   style={{
-                    color: "gray",
-                    fontSize: 14,
-                    marginTop: 8,
-                    marginBottom: 16,
-                    marginHorizontal: 8,
-                    alignSelf: isMyMessage ? "flex-start" : "flex-end"
+                    alignSelf: "flex-end"
                   }}
                 >
-                  {this.getTimeAndHours(item.timestamp)}
-                </Text>
-              )}
+                  {showTimestamp && (
+                    <Text
+                      style={{
+                        color: "gray",
+                        fontSize: 14,
+                        marginHorizontal: 8
+                      }}
+                    >
+                      {this.getTimeAndHours(item.timestamp)}
+                    </Text>
+                  )}
+                </View>
+              </View>
             </View>
           );
         }}
@@ -237,41 +195,137 @@ class Chat extends React.Component<NavigationScreenProps> {
 
   render() {
     return (
-      <MessagesConsumer>
-        {({ messages }) => {
-          const { navigation } = this.props;
-          const chatId = navigation.getParam("chatId");
+      <ImagePickerProvider>
+        <MembersProvider>
+          <MessagesProvider>
+            <MessagesConsumer>
+              {({ messages, pushMessage }) => {
+                const { navigation } = this.props;
+                const { text } = this.state;
+                const chatId = navigation.getParam("chatId");
 
-          const withDay = Object.values(messages[chatId]).map(m => ({
-            ...m,
-            day: this.getYearMonthDay(m.timestamp)
-          }));
-          const sectionedMessages = Object.entries(groupBy(withDay, "day")).map(
-            ([key, value]) => ({
-              title: key,
-              data: value
-            })
-          );
+                const withDay = Object.values(messages![chatId]).map(
+                  (m: any) => ({
+                    ...m,
+                    day: this.getYearMonthDay(m.timestamp)
+                  })
+                );
+                const sectionedMessages = Object.entries(
+                  groupBy(withDay, "day")
+                ).map(([key, value]) => ({
+                  title: key,
+                  data: value
+                }));
 
-          return (
-            <KeyboardAvoidingView
-              behavior="padding"
-              style={{ flex: 1 }}
-              keyboardVerticalOffset={Platform.OS === "android" ? 96 : 70}
-            >
-              <SectionList
-                inverted
-                sections={sectionedMessages}
-                renderItem={this.handleRenderItem}
-                renderSectionFooter={this.handleRenderListFooter}
-                keyExtractor={(_, index) => index.toString()}
-                ListHeaderComponent={this.handleRenderListHeader}
-                keyboardShouldPersistTaps="handled"
-              />
-            </KeyboardAvoidingView>
-          );
-        }}
-      </MessagesConsumer>
+                const styles = StyleSheet.create({
+                  textInput: {
+                    paddingHorizontal: 16,
+                    paddingVertical: 8,
+                    flex: 1,
+                    fontSize: 20
+                  },
+                  submitButton: {
+                    backgroundColor: text ? "skyblue" : "gray",
+                    padding: 16,
+                    alignItems: "center"
+                  },
+                  uploadMenuBar: {
+                    flexDirection: "row",
+                    padding: 8,
+                    justifyContent: "space-around"
+                  }
+                });
+
+                return (
+                  <View style={{ flex: 1 }}>
+                    <SectionList
+                      inverted
+                      sections={sectionedMessages}
+                      renderItem={this.handleRenderItem}
+                      renderSectionFooter={this.handleRenderListFooter as any}
+                      keyExtractor={(_, index) => index.toString()}
+                    />
+                    <KeyboardAvoidingView
+                      behavior="padding"
+                      keyboardVerticalOffset={86}
+                    >
+                      <View
+                        style={{
+                          marginTop: 16,
+                          borderTopWidth: 0.5,
+                          borderTopColor: "gray"
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                          }}
+                        >
+                          <TextInput
+                            placeholder="Type your messages here"
+                            value={text}
+                            onChangeText={this.handleChangeText}
+                            style={styles.textInput}
+                          />
+                          <TouchableWithoutFeedback
+                            disabled={text.length === 0}
+                            onPress={() => this.sendMessage(pushMessage)}
+                          >
+                            <View style={styles.submitButton}>
+                              <Ionicons
+                                name="ios-send"
+                                size={24}
+                                color={text ? "blue" : "#b3b3b3"}
+                              />
+                            </View>
+                          </TouchableWithoutFeedback>
+                        </View>
+                        <ImagePickerConsumer>
+                          {({ pickImage, openCamera }) => {
+                            return (
+                              <View style={styles.uploadMenuBar}>
+                                {["image", "camera", "videocam"].map(
+                                  (name: string) => {
+                                    const onPress = ({
+                                      image: pickImage,
+                                      camera: openCamera,
+                                      videocam: () => {
+                                        navigation.navigate("RecordVideo");
+                                      }
+                                    } as any)[name];
+
+                                    return (
+                                      <TouchableOpacity
+                                        key={name}
+                                        style={{ alignItems: "center" }}
+                                        onPress={onPress}
+                                      >
+                                        <Ionicons
+                                          name={`ios-${name}`}
+                                          size={32}
+                                          color="gray"
+                                        />
+                                        <Text style={{ color: "gray" }}>
+                                          {name}
+                                        </Text>
+                                      </TouchableOpacity>
+                                    );
+                                  }
+                                )}
+                              </View>
+                            );
+                          }}
+                        </ImagePickerConsumer>
+                      </View>
+                    </KeyboardAvoidingView>
+                  </View>
+                );
+              }}
+            </MessagesConsumer>
+          </MessagesProvider>
+        </MembersProvider>
+      </ImagePickerProvider>
     );
   }
 }

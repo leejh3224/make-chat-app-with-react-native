@@ -1,29 +1,21 @@
-import * as React from "react";
+import "intl";
+import "intl/locale-data/jsonp/ko";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
-import { Chat, Home } from "screens";
-import { ChatsProvider } from "state/chats";
-import { MembersProvider } from "state/members";
-import { MessagesProvider } from "state/messages";
+import { Chat, Home, RecordVideo } from "screens";
 
 const App = createAppContainer(
   createStackNavigator(
     {
       Home,
-      Chat
+      Chat,
+      RecordVideo
     },
     {
-      initialRouteName: "Home"
+      initialRouteName: "Home",
+      mode: "modal"
     }
   )
 );
 
-export default () => (
-  <MessagesProvider>
-    <MembersProvider>
-      <ChatsProvider>
-        <App />
-      </ChatsProvider>
-    </MembersProvider>
-  </MessagesProvider>
-);
+export default App;
