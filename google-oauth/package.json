@@ -6,17 +6,17 @@
     "ios": "REACT_DEBUGGER=\"rndebugger-open --open --port 19001\" expo start --ios --localhost",
     "eject": "expo eject",
     "test": "jest",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "snyk-protect": "snyk-protect",
+    "prepublish": "yarn run snyk-protect"
   },
   "dependencies": {
-    "expo": "^32.0.0",
-    "firebase": "^5.7.2",
+    "expo": "^32.0.6",
+    "firebase": "^8.0.1",
     "react": "16.5.0",
-    "react-native": "0.60.0",
+    "react-native": "0.62.3",
     "react-native-easy-toast": "^1.1.0",
-    "react-navigation": "^3.0.9",
-    "snyk": "^1.189.0"
+    "react-navigation": "^3.6.1",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.1.0",
