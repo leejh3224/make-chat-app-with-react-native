@@ -10,7 +10,7 @@
     "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
-    "expo": "^32.0.0",
+    "expo": "^34.0.1",
     "firebase": "^5.7.2",
     "react": "16.5.0",
     "react-native": "0.60.0",
