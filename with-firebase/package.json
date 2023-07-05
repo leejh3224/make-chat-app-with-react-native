@@ -8,7 +8,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"expo": "^32.0.0",
+		"expo": "^49.0.0",
 		"intl": "^1.2.5",
 		"lodash.groupby": "^4.6.0",
 		"react": "16.5.0",
